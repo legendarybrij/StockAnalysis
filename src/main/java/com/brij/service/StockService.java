@@ -64,10 +64,11 @@ public class StockService {
 	 * @throws Exception
 	 */
 	@Async
-	public CompletableFuture<List<Stock>> save(final MultipartFile file) throws Exception {
+	public void save(final MultipartFile file) throws Exception {
+		String message = "File Uploaded Successfully: " + file.getOriginalFilename();
 		try {
 			List<Stock> stocks = FileHelper.csvToStocks(file.getInputStream());
-			return CompletableFuture.completedFuture(repo.saveAll(stocks));
+			repo.saveAll(stocks);
 		} catch (IOException ex) {
 			throw new RuntimeException("Exception occured in save method in service class: " + ex.getMessage());
 		}

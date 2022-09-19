@@ -60,23 +60,22 @@ public class StockController {
 	 * @throws Exception
 	 */
 	@PostMapping("/stock-data/bulk-insert")
-	public ResponseEntity<?> uploadFile(@RequestParam("file") final MultipartFile file) throws Exception{
+	public CompletableFuture<ResponseEntity<?>> uploadFile(@RequestParam("file") final MultipartFile file) throws Exception{
 		String message = "";
 
 		if (FileHelper.hasCSVFormat(file)) {
 			try {
 				stockService.save(file);
-
 				message = "File Uploaded Successfully: " + file.getOriginalFilename();
-				return ResponseEntity.status(HttpStatus.OK).body(message);
+				return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.OK).body(message));
 			} catch (Exception ex) {
 				message = "File Could Not Be Upload: " + file.getOriginalFilename();
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
+				return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message));
 			}
 		}
 
 		message = "Please upload csv file";
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+		return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message));
 	}
 
 }
