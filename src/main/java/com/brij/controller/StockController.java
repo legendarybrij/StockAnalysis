@@ -1,5 +1,7 @@
 package com.brij.controller;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,7 @@ public class StockController {
 	 * @throws Exception
 	 */
 	@GetMapping(path = "/stock-data/{stock}") 
-	public ResponseEntity<?> getStockDetails(@PathVariable(name = "stock", required = true) final String stock) throws Exception {
+	public CompletableFuture<ResponseEntity<?>> getStockDetails(@PathVariable(name = "stock", required = true) final String stock) throws Exception {
 		return stockService.getAllStocksByName(stock);
 	}
 	
@@ -45,7 +47,7 @@ public class StockController {
 	 * @throws Exception
 	 */
 	@PostMapping("/addRecord")
-	public ResponseEntity<?> addNewRecord(@RequestBody final Stock stock) throws Exception {
+	public CompletableFuture<ResponseEntity<?>> addNewRecord(@RequestBody final Stock stock) throws Exception {
 
 		return stockService.addNewRecord(stock);
 		
